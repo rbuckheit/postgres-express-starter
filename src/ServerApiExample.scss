@@ -1,0 +1,58 @@
+label {
+  font-weight: bold;
+  display: block;
+  font-size: 20px;
+  text-align: left;
+}
+
+.create_product_form {
+  width: 180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.server_api_example {
+  margin: 50px 0px;
+  background-color: #444;
+  border: 2px solid #666;
+  border-radius: 10px;
+  min-width: 500px;
+  max-width: 800px;
+  width: 60%;
+  padding: 16px;
+}
+
+.section {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  background-color: #555;
+  border: 2px solid #666;
+  border-radius: 10px;
+  padding-bottom: 24px;
+}
+
+.server_response {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.server_error {
+  color: #f75d59;
+}
+
+.server_response pre {
+  text-align: left;
+  font-size: 14px;
+  padding: 14px;
+  margin: 14px;
+  border-radius: 14px;
+  background-color: #666;
+  border: 1px solid #777;
+}
+
+h4 {
+  font-family: monospace;
+  font-size: 20px;
+}

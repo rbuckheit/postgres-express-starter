@@ -1,105 +1,121 @@
-[![Known Vulnerabilities](https://snyk.io/test/github/tg970/PERN-Advanced-Starter/badge.svg)](https://snyk.io/test/github/tg970/PERN-Advanced-Starter)
+# postgres-express-starter
 
-# PERN-Advanced-Starter
-The PERN stack: [PostgresSQL](https://www.postgresql.org/), [Express](https://expressjs.com/), [React](https://reactjs.org/), &amp; [Node](https://nodejs.org/en/)
+This starter repo can be used to quickly scaffold a web application stack using Postgres, Express, React, Node, and Typescript.
 
-###### Live example: [PERN-Starter](https://pern-starter.herokuapp.com/)
+The Node ecosystem provides a number of powerful tools. However, choosing these tools and assembling them into a stack takes a lot of time and debugging. This project's goal is to disambiguate the process of choosing tools, and to speed up the process of putting them together and deploying an app.
 
-What makes this an advanced starter app you ask? This project folds together several tools that come together for a powerful dev environment and good start for a fully functional production application. It employs an 'advanced' implementation of [pg-promise](http://vitaly-t.github.io/pg-promise/) for interaction with a SQL database with additional basic security concerns added to the [Express](https://expressjs.com/) server.
+Specifically, the project has objectives in a few different areas:
 
-Here's a list of the other fun bits folded into this project:
-- [ESLint](https://eslint.org/): Style guide, syntax, and developer error finder and enforcer
-- [Webpack](https://webpack.js.org/): Static module bundler, complier, & hot-reloader
-- [Redux](https://redux.js.org/): Predictable state container/manager for JavaScript apps
-- [React-Router](https://github.com/ReactTraining/react-router#readme): “Dynamic Routing” (navigation) for React client
-- [React Material UI](https://material-ui.com/): Component library implementing Google's [Material Design](https://material.io/)
-- [Material-UI Kit](https://www.creative-tim.com/product/material-kit-react): Curated mid-level component library complete with view examples
-- [Axios](https://github.com/axios/axios): Promise based HTTP client for the browser and node.js
+**Tools**
 
-## Using this project
+- Bundle together some of the highest quality and most widely used tools.
+- Pre-configure those tools so that they work together seamlessly.
+- Make project creation and development fast and easy.
 
-First, make sure you have have PostgreSQL installed and running. Visit [the PostgreSQL home page](https://www.postgresql.org/) for more info and to download the install file.
+**Structure**
 
-Open a terminal window and create a new PG database:
+- Offer structure/scaffolding to guide development, encourage separation of concerns, and keep the repository organized.
+- Encourage best practices (such as testing, separating code from configuration, server fast-failure) by baking these in to the project from the onset.
+- Encouraging code quality and safety through testing, linting, and language choice.
 
-	$ createdb PERN-Starter
+**Deployability**
 
-Then to get going using this starter app, first fork the repo:
+- Minimize gaps between development and production environment.
+- Reduce the spin-up time to move an application from development into production.
 
-![fork](https://raw.githubusercontent.com/tg970/PERN-Advanced-Starter/master/src/assets/img/fork.png)
+This project is a fork of [tg970/PERN-Advanced-Starter](https://github.com/tg970/PERN-Advanced-Starter) which has been modified to support Typescript.
 
-Then clone the fork to your local machine:
+## setup
 
-  `$ git clone https://github.com/*YOUR-USERNAME-HERE*/PERN-Advanced-Starter.git`
+1. Install `node` from https://nodejs.org/en/download
+1. Install postgres from https://www.postgresql.org/download/
+1. Clone, fork, or copy the code of this directory into your repo.
+1. Run `npm install`.
+1. Create a new postgres database named `express-starter` using your software of choice (PgAdmin, terminal, etc).
+1. Set your database password in postgres to whatever value you want, and make sure it's available in the environment variable `DB_PASSWORD`. You can do this by adding it to your `.profile` or `.bashrc`.
+1. Start the stack by running `npm run dev`.
+1. Access http://localhost:3000
 
-> **Why fork?** That way you can make your own changes, save them to github, and even share them with the main fork.
+## scripts
 
-Hop into the project directory and install the dependencies:
+The stack contains the following scripts:
 
-	$ cd PERN-Advanced-Starter
-	$ npm i
+- `build`: compile the react app for production (it will be output to the `dist` directory).
+- `client`: run the react client alone via webpack.
+- `dev`: run the react client via webpack concurrently with the server.
+- `lint-client`: run `eslint` on the client.
+- `lint-server`: run `eslint` on the server.
+- `server`: run the node backend server in development mode using `nodemon`. the server will serve whatever react app has been previously built using `build` (though keep in mind that the app will be static and won't update as you change files).
+- `start`: run the server (without nodemon). useful to run in production.
+- `tsc`: run typescript compiler.
 
+## components
 
-> ![audit report](https://raw.githubusercontent.com/tg970/PERN-Advanced-Starter/master/src/assets/img/Audit_2019-04-12.png)
-> If you have npm v6+ installed and notice there were more than 0 vulnerabilities are found, run: `npm audit fix`
+This section describes some of the components used in the stack, how those components are configured, and how those components work and run in different environments.
 
-This is a constant battle: check your dependencies regularly and update them. More about npm's audit functionality [here](https://docs.npmjs.com/getting-started/running-a-security-audit).
+### postgres
 
+Postgres provides database storage backing the web application. The node server queries postgres via the `pg-promise` library. The app includes code to configure `pg-promise` and connect to the database in `server/db/index.ts`. The `server/db/model` directory contains sample modules which interact with a database table.
 
-To start the Webpack dev server run:
+This project also provides a lightweight migrations system. SQL files placed in `server/db/migrations` will be automatically run when the server starts up. The migrations system also creates a `migrations` table and will use this to determine which migrations to run and which ones have already been run.
 
-	$ npm run dev
+### express
 
-And to build for deployment/production run:
+Express provides the web application framework and allows you to configure routing, asset serving, rate limiting, and everything related to the request/response lifecycle for the server. Express is configured in `server/index.ts`, and additional sample routes are provided in `server/routes` (and connected to the app via `server/index.ts`).
 
-	$ npm run build
-	$ npm start
+### react
 
-Also don't forget that your API won't work unless you create a users table.
+React is the frontend framework for the client. This project provides a sample app which was created using `create-react-app`. The sample app was updated with a new component that allows you to make calls from the client to the server (and the server will in turn query your postgres database if all is configured correctly).
 
-> Does this look familiar?
-> ![no tables](https://raw.githubusercontent.com/tg970/PERN-Advanced-Starter/master/src/assets/img/newdb.png)
+You can see examples of how to make server calls in the `src/ServerApiExample.tsx` react component, and can see these server interactions live on the app homepage.
 
-To do this hit the following route, either in your browser or with [Postman](https://www.getpostman.com/).
+### webpack
 
-http://localhost:3000/api/users/create  
+Webpack acts as a pipeline to build and bundle together the client react application. It is configured in `webpack.config.js`. It can be used to serve the react app in development. It can also be used to build a compiled javascript bundle containing the react app for serving in production.
 
-> Successful return:
-> ![null](https://raw.githubusercontent.com/tg970/PERN-Advanced-Starter/master/src/assets/img/null.png)
+### typescript
 
-If you want to seed use:
+TypeScript is provided via the `typescript` npm package. The typescript compiler is available in `./node_modules/.bin/tsc`. There are two typescript configurations (`tsconfig.json`). The one in the root directory manages compiler settings for the react client and the one in the server directory manages compiler settings for the server.
 
-http://localhost:3000/api/users/init
+Server typescript code is built directly by `tsc` and outputs compiled `.js` files into the `server/build` directory. You probably want to ignore this directory in your editor so you don't end up editing these files (they will get overwritten with each build or restart of the development server).
 
->  Successful return:
->![id's](https://raw.githubusercontent.com/tg970/PERN-Advanced-Starter/master/src/assets/img/ids.png)
+Client typescript code is built indirectly as part of the `webpack` pipeline. `webpack.config.js` overrides the typescript compiler options to allow the typescript compiler to emit files as part of the webpack serving pipeline. This means you don't see the output `.js` files being written to disk directly, but they show up in the output `dist` or are output by the webpack server.
 
-And if you don't have it: [json formatter for chrome.](https://github.com/callumlocke/json-formatter)
+### node
 
-## What's happening under the hood
+`node` is used to run the server (in particular, it runs all of the compiled javascript files that typescript output into the `build` directory).
 
-#### pg-promise: [Read up on it.](https://github.com/vitaly-t/pg-promise)
+### eslint
 
-#### Other Config files:
-_.babelrc_ - [Babel](https://babeljs.io/) is a toolchain used by Webpack to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript for old browsers or environments. This file tells Babel our presets and plugins.
+`eslint` is used for linting and there is an `.eslintrc.json` for the client (in the root directory) and another for the server (in the `server` directory). This allows for setting different linting rules for the react code vs. the backend code.
 
-_.eslintrc.json_ - This config file tells [ESLint](https://eslint.org/) our settings for interpreting and reporting errors and warnings while we're writing our code. Delete or add rules, change style guide, whatever you want, this is where you do it. For this to work you'll need to make sure you have a linter and eslint installed in your code editor.  
+### nodemon
 
-_nodemon.json_ - When Webpack spins up a dev server it also starts [nodemon](https://nodemon.io/) in the background to proxy for api calls. This file tells nodemon which directory to watch for changes and restart when files are updated.
+`nodemon` is used to run the server in development mode. It watches all of the server source code files and will restart the development server if one changes. Because server files must be compiled with typescript, this project uses a script (`scripts/nodemon.sh`) to both compile and start the server when nodemon detects a change (as opposed to starting the server up directly).
 
-_.webpack.config.js_ - Oh the magic of Webpack! This file gives Webpack all the important details for doing what it does. Again this file is configurable; for more information visit [the configuration docs](https://webpack.js.org/configuration/).
+## configuration
 
+The application configuration is managed through environment variables and the `env-var` node module. The `env.ts` file in the server spells out all of the configuration options for the server, and is loaded immediately at server startup. This ensures that all necessary environment variables are loaded immediately at startup, and guarantees that the server will fast-fail if a particular variable is missing.
 
+The `environment` directory provides shell scripts which act as wrappers to provide the necessary variables in a particular environment. Variables which are sensitive or need to change from machine to machine (like `DB_PASSWORD`) may be omitted or passed through in the scripts.
 
+## editor config
 
-## How did we get here?
+The tools chosen for this stack are more powerful if you connect them with your editor. You'll want to install and configure plugins in your editor for:
 
-There are so many resources out there to help developers resolve issues and build new skills and tools. I'm very thankful for the sharing of knowledge and I wanted to put this project together to help other devs that are hoping to try their hand at a full-stack React application.
+- `prettier`. You can configure prettier to automatically format code on save according to the `.prettierrc.json` file
+- `eslint`. You can configure your eslint integration to automatically fix lint errors according to the project `.eslintrc.json` rules, and to show un-fixable lint errors in red.
+- `typescript` language support
+- `scss` language support
+- `react` and JSX / TSX language support
 
-This starter app was inspired and guided by the following resources:
+## improvements needed
 
-- [Simple React Full Stack](https://github.com/crsandeep/simple-react-full-stack)
-- [Webpack](https://webpack.js.org/)
-- [Postgres Advanced Demo](https://github.com/vitaly-t/pg-promise-demo)
-- [React & Redux Tutorial](https://www.valentinog.com/blog/react-redux-tutorial-beginners/)
-- [React - Material UI Kit](https://www.creative-tim.com/product/material-kit-react)
+This is a work in progress, and I'm hoping to work on the following areas. I'm also happy to accept pull requests for any of these.
+
+- Adding test infrastructure for both react and the server.
+- Building in passport authentication by default and providing a table for user accounts.
+- Reducing or eliminating custom webpack config in favor of using `react-scripts` in a more out-of-the-box way (if possible).
+- Splitting up client and server dependencies and more clearly separating these projects.
+- Researching and integrating a more powerful database migrations system.
+- Re integrate material UI or another UI kit for better frontend experience.

@@ -1,0 +1,19 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "composite": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "outDir": "build",
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "pretty": true
+  },
+  "include": ["**/*"]
+}

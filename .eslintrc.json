@@ -1,37 +1,48 @@
 {
   "extends": [
+    "plugin:@typescript-eslint/recommended",
     "airbnb",
-    "plugin:security/recommended"
+    "plugin:security/recommended",
+    "prettier"
   ],
   "plugins": [
     "security"
   ],
+  "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "node": true
   },
   "rules": {
+    "arrow-body-style": "off",
+    "camelcase":"off",
     "no-console": "off",
     "comma-dangle": "off",
-    "prefer-destructuring": ["error", {"object": false, "array": true}],
+    "prefer-destructuring": ["error", { "object": false, "array": true }],
     "react/jsx-filename-extension": "off",
     "react/no-unused-state": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/forbid-prop-types": "off",
     "quotes": "off",
-    "import/order":"off",
+    "import/order": "off",
     "import/extensions": [
-      "error", "ignorePackages",
+      "off",
+      "ignorePackages",
       {
-        ".jsx": "never"
+        ".js": "never",
+        ".jsx": "never",
+        ".tsx": "never"
       }
     ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "off",
     "react/prefer-stateless-function": [0, { "ignorePureComponents": true }]
   },
   "settings": {
     "import/resolver": {
-      "webpack": {"config": "webpack.config.js"}
+      "typescript": {},
+      "webpack": { "config": "webpack.config.js" }
     }
   }
 }

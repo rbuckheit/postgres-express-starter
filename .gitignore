@@ -1,5 +1,12 @@
 .DS_Store
 
+# Output build and dist directories
+dist/
+server/build/
+
+# local only scripts
+scripts/copy
+
 # Logs
 logs
 *.log

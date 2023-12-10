@@ -1,3 +1,13 @@
 {
-  "watch": ["./server"]
+  "watch": [
+    "./server"
+  ],
+  "ignore": [
+    "./server/build/*"
+  ],
+  "execMap": {
+    "js": "node",
+    "sh": "/bin/bash"
+  },
+  "ext": "*"
 }

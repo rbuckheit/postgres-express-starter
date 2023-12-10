@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "[environment] development";
+
+# express
+export SERVER_PORT=3000
+export MORGAN_MODE=dev
+export NODE_ENV=development
+export TRUST_PROXY_COUNT=0
+
+# database
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=express-starter
+export DB_USER=postgres
+export DB_PASSWORD=${DB_PASSWORD:=password}
+
+"$@"
